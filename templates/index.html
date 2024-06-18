@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/static.css') }}">
 </head>
 <body>
     <div>
@@ -13,7 +13,7 @@
     </div>
     <h1>Login</h1>
 
-    <form id="loginForm" action="{{ url_for('login') }}">
+    <form id="loginForm" action="{{ url_for('login') }}" >
         <input type="text" id="username" placeholder="Username" required>
         <br>
         <br>
@@ -22,7 +22,12 @@
         <br>
         <button type="submit">Login</button>
     </form>
-    
+    <script>
+       
+
+           
+            
+    </script>
 
 </body>
 </html>

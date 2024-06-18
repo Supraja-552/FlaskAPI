@@ -8,18 +8,18 @@ from flask_restful import Resource,Api
 import os
 from flask_cors import CORS
 app=Flask(__name__)
+CORS(app)
 from flask_sqlalchemy import SQLAlchemy
 
 import mysql.connector
-
-app.config.from_object(Config)
-app.config['JWT_SECRET_KEY'] = 'jwt_secret_key'  
-database=mysql.connector.connect(
+dbname=mysql.connector.connect(
     host="localhost",
     user='root',
     password='root',
     database='mysql',
-    port=3307)
+    port=3306)
+
+app.config.from_object(Config)
 
 # Change this!
 jwt=JWTManager(app)
@@ -30,8 +30,8 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-db=SQLAlchemy(app)
 
+db=SQLAlchemy(app)
 
 
 
@@ -42,15 +42,15 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
 
 @app.route('/upload',methods=['GET','POST'])
-@jwt_required()
+#@jwt_required()
 def upload():
     if request.method=='POST':
         file=request.files['file']
         if file:
             filename=file.filename
-            file.save(os.path.join('uploads',filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
             new_Image=Image(filename=filename)
-            
+           
             return redirect(url_for('result',filename=filename))
         else:
             return 'File not found tuui'
@@ -60,25 +60,24 @@ def upload():
 def index():
     return render_template('index.html')
 @app.route('/result')
-@jwt_required()
+#@jwt_required()
 def result():
     filename=request.args.get('filename')
     return render_template('result.html',filename=filename)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
+    
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
     username = request.json.get('username', None)
     password = request.json.get('password', None)
-    if username != 'admin' or password != 'password':
+    if username != 'root' or password != 'root':
         return jsonify({"msg": "Bad username or password"}), 401
 
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token), 200
-
-
 if __name__=='__main__':  
     with app.app_context():
         db.create_all()

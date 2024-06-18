@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/static.css') }}">
 </head>
 <body>
-    <div>
-    <form method="POST" action="{{url_for('upload')}}" enctype="multipart/form-data" id="uploadForm">
+    <h1 style="background-color:blue;color:red;margin: 20px auto;width:350px"> SimpleUI</h1>
+    <div style="margin-top:0px">
+        
+    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" id="uploadForm">
        <input type="file" name="file"  id="fileINput" required
->
+> 
 <br>
 <br>
 
@@ -19,30 +21,7 @@
 </div>
 <script src="{{ url_for('static',filename='js/script.js') }}">
      
-       <!-- document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('/upload', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')  // assuming token is stored in localStorage
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.msg === "File successfully uploaded") {
-                    window.location.href = '/result/' + data.filename;
-                } else {
-                    alert(data.msg);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });-->
+      
     </script>
 </body>
 </html>

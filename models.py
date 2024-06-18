@@ -3,4 +3,3 @@ db=SQLAlchemy()
 class Image(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     filename=db.Column(db.String(150),nullable=False)
-# develop a model with user name and password
